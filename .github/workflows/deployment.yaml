@@ -18,7 +18,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::971674965395:role/datadev-dev
+          role-to-assume: arn:aws:iam::971674965395:role/datadev-dev/bmurukan.ext@calibo.com
           aws-region: us-east-1
 
       - name: Install AWS CLI v2
