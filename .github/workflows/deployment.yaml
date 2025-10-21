@@ -21,18 +21,17 @@ jobs:
           role-to-assume: arn:aws:iam::971674965395:role/github.to.aws.oicd
           aws-region: us-east-1
 
-      - name: Install AWS CLI v2
-        uses: imehedi/actions-awscli-v2@latest
+      - name: Sanity check (who am I?)
+        run: aws sts get-caller-identity
 
       - name: Create zip for Lambda function
         run: |
-          zip -r code.zip . -x ".git/*" ".github/*"
+          # exclude VCS/workflow dirs and the zip itself if it exists
+          zip -r code.zip . -x ".git/*" ".github/*" "code.zip"
 
       - name: Update Lambda code
         run: |
           aws lambda update-function-code \
             --function-name arn:aws:lambda:us-east-1:971674965395:function:githubaction \
             --zip-file fileb://code.zip
-
-      - name: Sanity check
-        run: aws sts get-caller-identity
+          # If you want to create a new published version each deploy, add: --publish
